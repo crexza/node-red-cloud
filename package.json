@@ -1,0 +1,7 @@
+{
+  "name": "node-red-cloud",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node-red -p ${PORT:-1880} -u /data"
+  }
+}
