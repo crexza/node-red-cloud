@@ -19,4 +19,4 @@ USER node-red
 
 EXPOSE 10000
 
-CMD ["sh", "-c", "node-red -p ${PORT:-10000} -u /data -h 0.0.0.0"]
+CMD ["sh", "-c", "node-red -p ${PORT:-10000} -u /data"]
