@@ -2,17 +2,15 @@ FROM nodered/node-red:latest
 
 USER root
 
-RUN mkdir -p /data/.npm
-RUN chown -R 1000:1000 /data
+# install dashboard nodes in correct place
+RUN npm install -g \
+    node-red-dashboard@3.6.6 \
+    node-red-contrib-ui-led
+
+# force Node-RED to use Render port
+ENV PORT=10000
 
 USER node-red
 
-WORKDIR /data
-
-ENV NPM_CONFIG_CACHE=/data/.npm
-
-RUN npm install --save \
-    node-red-dashboard@3.6.6 \
-    node-red-contrib-ui-led@0.4.11
-
+# IMPORTANT: explicit start command
 CMD ["node-red", "-p", "10000", "-u", "/data"]
