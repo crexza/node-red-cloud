@@ -1,21 +1,22 @@
 FROM nodered/node-red:latest
 
 USER root
-RUN mkdir -p /data && chown -R node-red:node-red /data
-USER node-red
+
+RUN mkdir -p /data
 
 WORKDIR /data
 
-# Install your nodes into /data so Node-RED can see them
 RUN npm install --save \
     node-red-dashboard@3.6.6 \
     node-red-node-ui-table@0.4.5 \
     node-red-contrib-modbus@5.45.2
 
-# Use Render's PORT
-ENV PORT=10000
+COPY flows.json /data/flows.json
 
-# Start Node-RED on the correct port
-CMD ["sh","-c","node-red -p $PORT -u /data"]
+RUN chown -R node-red:node-red /data
+
+USER node-red
 
 EXPOSE 10000
+
+CMD ["sh", "-c", "node-red -p ${PORT:-10000} -u /data"]
