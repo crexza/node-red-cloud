@@ -1,16 +1,15 @@
 FROM nodered/node-red:latest
 
 USER root
-RUN mkdir -p /data/.npm && chown -R node-red:node-red /data
 
-USER node-red
-WORKDIR /data
+# Install FlowFuse globally
+RUN npm install -g @flowfuse/node-red-dashboard
 
-ENV NPM_CONFIG_CACHE=/data/.npm
-
-RUN npm install --no-audit --no-fund --omit=dev \
-    @flowfuse/node-red-dashboard@1.30.2
+# Tell Node-RED to load global modules
+ENV NODE_PATH=/usr/local/lib/node_modules
 
 ENV PORT=10000
+
+USER node-red
 
 CMD ["node-red", "-p", "10000", "-u", "/data"]
