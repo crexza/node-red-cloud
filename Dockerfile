@@ -2,11 +2,13 @@ FROM nodered/node-red:latest
 
 USER root
 
-RUN cd /usr/src/node-red && \
-    npm install @flowfuse/node-red-dashboard@1.30.2
-
-ENV PORT=10000
+RUN npm install --unsafe-perm --no-update-notifier --no-fund --only=production \
+    node-red-dashboard \
+    node-red-contrib-ui-led \
+    node-red-node-ui-table
 
 USER node-red
 
-CMD ["node-red", "-p", "10000", "-u", "/data"]
+COPY flows.json /data/flows.json
+
+EXPOSE 1880
